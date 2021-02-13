@@ -82,7 +82,7 @@ const createSlider = () => {
   timer = setInterval(function () {
     slideIndex++;
     changeSlide(slideIndex);
-  }, duration);
+  }, 3000);
 }
 
 // change slider index 
