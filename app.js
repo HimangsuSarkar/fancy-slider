@@ -51,10 +51,11 @@ const selectItem = (event, img) => {
   //element.classList.add('added');
   element.classList.toggle('added'); //apply toggle function
 
-  // let item = sliders.indexOf(img);
-  // if (item === -1) {
-  //   sliders.push(img);
-  // } else {
+  let item = sliders.indexOf(img);
+  if (item === -1) {
+    sliders.push(img);
+  }
+  // else {
   //   //alert('Hey, Already added !')
   // }
 
