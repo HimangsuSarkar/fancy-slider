@@ -25,23 +25,29 @@ document.getElementById("search")
 const showImages = images => {
   imagesArea.style.display = 'block';
   gallery.innerHTML = '';
-  console.log(images);
   // show gallery title
   galleryHeader.style.display = 'flex';
   images.forEach(image => {
     let div = document.createElement('div');
     div.className = 'col-lg-3 col-md-4 col-xs-6 img-item mb-2';
     div.innerHTML = ` <img class="img-fluid img-thumbnail" onclick=selectItem(event,"${image.webformatURL}") src="${image.webformatURL}" alt="${image.tags}">`;
-    gallery.appendChild(div)
+    gallery.appendChild(div);
+
   });
 
 }
 
-const getImages = (query) => {
-  fetch(`https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`)
-    .then(response => response.json())
-    .then(data => showImages(data.hits))
-    .catch(error => console.log(error))
+const getImages = async (query) => {
+  const url =
+    `https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`
+  try {
+    const response = await fetch(url)
+    const data = await response.json()
+    showImages(data.hits)
+  } catch (error) {
+    displayErrorMessage("Sorry!!! You put wrong keyword,Please try again!")
+  }
+
 }
 
 
@@ -75,7 +81,6 @@ const createSlider = () => {
   <span class="prev" onclick="changeItem(-1)"><i class="fas fa-chevron-left"></i></span>
   <span class="next" onclick="changeItem(1)"><i class="fas fa-chevron-right"></i></span>
   `;
-
   sliderContainer.appendChild(prevNext)
   document.querySelector('.main').style.display = 'block';
   // hide image aria
@@ -93,7 +98,7 @@ const createSlider = () => {
   timer = setInterval(function () {
     slideIndex++;
     changeSlide(slideIndex);
-  }, 4000);
+  }, 2000);
 }
 
 // change slider index 
@@ -131,5 +136,15 @@ searchBtn.addEventListener('click', function () {
 })
 
 sliderBtn.addEventListener('click', function () {
-  createSlider()
+  createSlider();
 })
+
+
+const displayErrorMessage = error => {
+  const errorTag = document.getElementById("error-message");
+  errorTag.innerText = error;
+}
+const toggleSpinner = () => {
+  const spinner = document.getElementById("spinner");
+  spinner.classList.toggle('d-none');
+}
