@@ -34,10 +34,11 @@ const showImages = images => {
     gallery.appendChild(div);
 
   });
-
+  toggleSpinner();
 }
 
 const getImages = async (query) => {
+  toggleSpinner();
   const url =
     `https://pixabay.com/api/?key=${KEY}=${query}&image_type=photo&pretty=true`
   try {
